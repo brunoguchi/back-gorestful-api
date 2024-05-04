@@ -25,9 +25,13 @@ func MockedData() []Book {
 	return books
 }
 
-func GetAllBooks(request *restful.Request, response *restful.Response) {
+func setHeaders(response *restful.Response) {
 	response.Header().Set("Content-Type", "application/json")
+	response.Header().Set("Access-Control-Allow-Origin", "*")
+}
 
+func GetAllBooks(request *restful.Request, response *restful.Response) {
+	setHeaders(response)
 	dados := MockedData()
 
 	encoder := json.NewEncoder(response)
@@ -35,6 +39,7 @@ func GetAllBooks(request *restful.Request, response *restful.Response) {
 }
 
 func GetBookById(request *restful.Request, response *restful.Response) {
+	setHeaders(response)
 	idParam := request.PathParameter("id")
 	id, err := strconv.Atoi(idParam)
 
